@@ -10,15 +10,16 @@
     android:paddingBottom="16dp">
 
     <TextView
+        android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:letterSpacing="0.3"
         android:text="DART APP"
         android:textColor="#e8c84a"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.3"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp" />
+        android:textStyle="bold" />
 
     <com.example.dartapp.DartboardView
         android:id="@+id/dartboardView"

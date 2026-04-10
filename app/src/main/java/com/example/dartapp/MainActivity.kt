@@ -11,12 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.activity.enableEdgeToEdge
+import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
     private val playerCount = 2;
     private var currentPlayer = 0;
     private val playerScores = mutableListOf<Int>()
+    private var currentTry = 0;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,22 +32,23 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        //Set Up Players
-       for(i in 1..playerCount){
-           playerScores.add(i-1, 301)
-       }
-        val playerGroup = findViewById<RadioGroup>(R.id.playerGroup)
-
+        val playerGroup  = findViewById<RadioGroup>(R.id.playerGroup)
+        val titleText    = findViewById<TextView>(R.id.titleText)
         val sumText      = findViewById<TextView>(R.id.sumText)
         val switchDouble = findViewById<Switch>(R.id.switchDouble)
         val switchTriple = findViewById<Switch>(R.id.switchTriple)
         val btnReset     = findViewById<Button>(R.id.btnReset)
         val dartboard    = findViewById<DartboardView>(R.id.dartboardView)
 
+
+        //Set Up Players
+       for(i in 1..playerCount){
+           playerScores.add(i-1, 301)
+       }
+
         for(i in 0 until playerCount){
             val btn = RadioButton(this).apply {
-                val index = i +1
-                text = "Player$index"
+                text = "Player${i+1}"
                 id = View.generateViewId()
             }
             playerGroup.addView(btn)
@@ -55,11 +58,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        titleText.text = "Player ${currentPlayer+1}"
+
         playerGroup.setOnCheckedChangeListener { group, checkedId ->
             val index = group.indexOfChild(group.findViewById(checkedId))
             currentPlayer = index
 
             sumText.text = playerScores[currentPlayer].toString()
+            titleText.text = "Player ${currentPlayer+1}"
         }
 
         switchDouble.setOnCheckedChangeListener { _, isChecked ->
@@ -78,6 +84,21 @@ class MainActivity : AppCompatActivity() {
             val currentScore = playerScores.get(currentPlayer) - score;
             playerScores.set(currentPlayer,currentScore)
             sumText.text = playerScores.get(currentPlayer).toString()
+
+            currentTry+=1
+
+            if(currentTry == 3){
+                if(currentPlayer < playerCount-1){
+                    currentPlayer += 1
+                    currentTry = 0
+                }else{
+                    currentPlayer = 0
+                    currentTry = 0
+                }
+
+            }
+
+            titleText.text = "Player ${currentPlayer+1}"
 
             switchDouble.isChecked = false
             switchTriple.isChecked = false
