@@ -15,7 +15,7 @@ import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
-    private val playerCount = 2;
+    private var playerCount = 2;
     private var currentPlayer = 0;
     private val playerScores = mutableListOf<Int>()
     private var currentTry = 0;
@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        playerCount = intent.getIntExtra("playerCount", 2)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -39,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         val switchTriple = findViewById<Switch>(R.id.switchTriple)
         val btnReset     = findViewById<Button>(R.id.btnReset)
         val dartboard    = findViewById<DartboardView>(R.id.dartboardView)
-
 
         //Set Up Players
        for(i in 1..playerCount){
@@ -105,8 +106,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnReset.setOnClickListener {
-            playerScores.set(currentPlayer, 0)
-            sumText.text = "0"
+            playerScores.set(currentPlayer, 301)
+            sumText.text = "301"
             switchDouble.isChecked = false
             switchTriple.isChecked = false
         }
